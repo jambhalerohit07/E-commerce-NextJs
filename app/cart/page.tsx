@@ -38,6 +38,8 @@ export default function CartPage() {
   );
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const message = "Looks like you haven't added any items to your cart yet. Start shopping to fill it up!";
+
 
   if (cartItems.length === 0) {
     return (
@@ -50,8 +52,8 @@ export default function CartPage() {
               </div>
               <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
               <p className="text-gray-600 mb-8">
-                Looks like you haven't added any items to your cart yet. Start shopping to fill it up!
-              </p>
+  {message}
+</p>
               <Link
                 href="/products"
                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
