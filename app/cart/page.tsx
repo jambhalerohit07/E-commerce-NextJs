@@ -51,9 +51,10 @@ export default function CartPage() {
                 <ShoppingCartIcon className="h-12 w-12 text-gray-400" />
               </div>
               <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
-              {/* <p className="text-gray-600 mb-8">
-  Looks like you haven&#39;t added any items to your cart yet. Start shopping to fill it up!
-</p> */}
+              <p className="text-gray-600 mb-8">
+  {"Looks like you haven't added any items to your cart yet. Start shopping to fill it up!"}
+</p>
+
               <Link
                 href="/products"
                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
