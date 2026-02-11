@@ -6,6 +6,7 @@ import { addToCart } from '@/store/cartSlice';
 import { useState } from 'react';
 import { ShoppingCartIcon, CheckIcon, StarIcon } from '@heroicons/react/24/solid';
 import { TagIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 
 interface ProductCardProps {
   product: Product;
@@ -24,11 +25,17 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
       <div className="relative h-48 bg-gray-100 overflow-hidden group">
-        <img
+        {/* <img
           src={product.thumbnail}
           alt={product.title}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-        />
+        /> */}
+
+        <Image
+  src={product.thumbnail}
+          alt={product.title}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+/>
         {product.discountPercentage > 0 && (
           <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
             <TagIcon className="h-3 w-3" />

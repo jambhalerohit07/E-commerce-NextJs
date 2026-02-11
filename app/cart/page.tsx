@@ -11,6 +11,7 @@ import {
   ArrowLeftIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 
 export default function CartPage() {
   const dispatch = useAppDispatch();
@@ -38,7 +39,6 @@ export default function CartPage() {
   );
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const message = "Looks like you haven't added any items to your cart yet. Start shopping to fill it up!";
 
 
   if (cartItems.length === 0) {
@@ -52,7 +52,7 @@ export default function CartPage() {
               </div>
               <h1 className="text-3xl font-bold text-gray-900 mb-4">Your Cart is Empty</h1>
               <p className="text-gray-600 mb-8">
-  {message}
+  Looks like you haven&#39;t added any items to your cart yet. Start shopping to fill it up!
 </p>
               <Link
                 href="/products"
@@ -96,11 +96,18 @@ export default function CartPage() {
                 <div className="flex gap-6">
                   {/* Product Image */}
                   <div className="flex-shrink-0">
-                    <img
+                    {/* <img
                       src={item.product.thumbnail}
                       alt={item.product.title}
                       className="w-32 h-32 object-cover rounded-lg"
-                    />
+                    /> */}
+                    <Image
+  src={item.product.thumbnail}
+                      alt={item.product.title}
+  width={300}
+  height={300}
+  className="rounded-lg"
+/>
                   </div>
 
                   {/* Product Details */}
