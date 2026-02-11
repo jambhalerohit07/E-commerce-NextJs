@@ -70,7 +70,7 @@ export default function ProductsPage() {
       const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch products');
+        console.error('Failed to fetch products:', response.statusText);
       }
 
       const data = await response.json();
