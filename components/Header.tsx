@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/store/hooks";
-import { ArrowRightOnRectangleIcon } from "@heroicons/react/20/solid";
+import { LogOut, Menu, ShoppingBag, ShoppingCart, X } from "lucide-react";
 
 export default function Header() {
   const pathname = usePathname();
@@ -38,7 +38,9 @@ export default function Header() {
             href="/products"
             className="text-lg md:text-xl font-bold text-white hover:text-blue-400 transition-colors flex items-center gap-2"
           >
-            <span className="text-2xl">🛍️</span>
+            <span className="text-2xl">
+              <ShoppingBag />
+            </span>
             <span className="hidden sm:inline">E-Commerce Store</span>
             <span className="sm:hidden">Shop</span>
           </Link>
@@ -60,7 +62,9 @@ export default function Header() {
               }`}
             >
               <div className="relative">
-                <span className="text-xl">🛒</span>
+                <span className="text-xl">
+                  <ShoppingCart />
+                </span>
                 {totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                     {totalItems}
@@ -74,55 +78,30 @@ export default function Header() {
               onClick={handleLogout}
               className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
-              <ArrowRightOnRectangleIcon className="h-5 w-5" />
+              <span className="text-lg">
+                <LogOut />
+              </span>
               Logout
             </button>
           </nav>
 
           <div className="flex md:hidden items-center gap-3">
             <Link href="/cart" className="relative text-white">
-              <span className="text-2xl">🛒</span>
+              <span className="text-2xl">
+                <ShoppingCart />
+              </span>
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </Link>
-
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-white p-2 hover:bg-gray-800 rounded-lg transition-colors"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? (
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
+              {isMobileMenuOpen ? <X /> : <Menu />}
             </button>
           </div>
         </div>
@@ -175,7 +154,9 @@ export default function Header() {
                 className="w-full text-left px-4 py-2 text-base font-medium text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors"
               >
                 <span className="flex items-center gap-3">
-                  <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                  <span className="text-xl">
+                    <LogOut />
+                  </span>
                   Logout
                 </span>
               </button>

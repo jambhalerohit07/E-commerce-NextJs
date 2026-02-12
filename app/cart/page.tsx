@@ -3,6 +3,7 @@
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { removeFromCart, updateQuantity, clearCart } from "@/store/cartSlice";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function CartPage() {
   const dispatch = useAppDispatch();
@@ -62,7 +63,6 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container-custom py-4 md:py-8">
-        {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-4 mb-6 md:mb-8">
           <div>
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-1 md:mb-2">
@@ -90,11 +90,20 @@ export default function CartPage() {
                 className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden"
               >
                 <div className="md:hidden">
-                  <img
+                  {/* <img
                     src={item.product.thumbnail}
                     alt={item.product.title}
                     className="w-full h-48 object-cover"
-                  />
+                  /> */}
+                  <div className="w-full h-48 overflow-hidden">
+                    <Image
+                      src={item.product.thumbnail}
+                      alt={item.product.title}
+                      width={200}
+                      height={200}
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1">
@@ -118,7 +127,6 @@ export default function CartPage() {
                       ${item.product.price.toFixed(2)}
                     </p>
 
-                    {/* Quantity Controls */}
                     <div className="space-y-3">
                       <div className="flex flex-col gap-2">
                         <span className="text-sm font-medium text-gray-700">
@@ -170,12 +178,17 @@ export default function CartPage() {
 
                 <div className="hidden md:flex gap-6 p-6">
                   <div className="flex-shrink-0">
-                    <img
-                      src={item.product.thumbnail}
-                      alt={item.product.title}
-                      className="w-28 h-28 lg:w-32 lg:h-32 object-cover rounded-lg"
-                    />
+                    <div className="w-28 h-28 lg:w-32 lg:h-32 overflow-hidden">
+                      <Image
+                        src={item.product.thumbnail}
+                        alt={item.product.title}
+                        width={200}
+                        height={200}
+                        className="w-28 h-28 lg:w-32 lg:h-32 object-cover rounded-lg"
+                      />
+                    </div>
                   </div>
+
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1">

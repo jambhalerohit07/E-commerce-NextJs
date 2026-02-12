@@ -8,6 +8,8 @@ import {
   UserIcon,
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
+import { TriangleAlert } from "lucide";
+import { Loader, SplinePointerIcon, TriangleAlertIcon } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -54,7 +56,9 @@ export default function LoginPage() {
         setIsLoading(false);
         return;
       }
+
       // window.location.href = '/products';
+
       router.push("/products");
       router.refresh();
     } catch (error) {
@@ -95,7 +99,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               {loginError && (
                 <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 flex items-start gap-3">
-                  <ExclamationTriangleIcon className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                  <TriangleAlertIcon className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                   <p className="text-sm text-red-800">{loginError}</p>
                 </div>
               )}
@@ -167,22 +171,7 @@ export default function LoginPage() {
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        fill="none"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      />
-                    </svg>
+                    <Loader className="h-5 w-5 animate-spin" />
                     Signing in...
                   </span>
                 ) : (
@@ -194,24 +183,5 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
-  );
-}
-
-function ExclamationTriangleIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      {...props}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-      />
-    </svg>
   );
 }
