@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import ProductCard from '@/components/ProductCard';
-import Loading from '@/components/Loading';
-import Error from '@/components/Error';
-import { Product } from '@/types';
-import { 
-  MagnifyingGlassIcon, 
+import { useState, useEffect } from "react";
+import ProductCard from "@/components/ProductCard";
+import Loading from "@/components/Loading";
+import Error from "@/components/Error";
+import { Product } from "@/types";
+import {
+  MagnifyingGlassIcon,
   FunnelIcon,
   ArrowsUpDownIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
-} from '@heroicons/react/24/outline';
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-  
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [sortBy, setSortBy] = useState('');
+  const [error, setError] = useState("");
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchInput, setSearchInput] = useState('');
-  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
   const itemsPerPage = 12;
 
   useEffect(() => {
@@ -38,19 +38,19 @@ export default function ProductsPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/categories');
+      const response = await fetch("/api/categories");
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
       }
     } catch (error) {
-      console.error('Failed to fetch categories:', error);
+      console.error("Failed to fetch categories:", error);
     }
   };
 
   const fetchProducts = async () => {
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
       const skip = (currentPage - 1) * itemsPerPage;
@@ -63,21 +63,21 @@ export default function ProductsPage() {
       }
 
       if (sortBy) {
-        const [field, order] = sortBy.split('-');
+        const [field, order] = sortBy.split("-");
         url += `&sortBy=${field}&order=${order}`;
       }
 
       const response = await fetch(url);
 
       if (!response.ok) {
-        console.error('Failed to fetch products:', response.statusText);
+        throw new Error("Failed to fetch products");
       }
 
       const data = await response.json();
       setProducts(data.products || []);
       setTotalProducts(data.total || 0);
     } catch (err) {
-      setError('Failed to load products. Please try again.');
+      setError("Failed to load products. Please try again.");
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -88,13 +88,13 @@ export default function ProductsPage() {
     e.preventDefault();
     setSearchQuery(searchInput);
     setCurrentPage(1);
-    setSelectedCategory('');
+    setSelectedCategory("");
   };
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-    setSearchQuery('');
-    setSearchInput('');
+    setSearchQuery("");
+    setSearchInput("");
     setCurrentPage(1);
   };
 
@@ -113,7 +113,6 @@ export default function ProductsPage() {
           <p className="text-gray-600">Discover our amazing collection</p>
         </div>
 
-        {/* Filters Section */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8 space-y-4">
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="flex gap-3">
@@ -187,8 +186,8 @@ export default function ProductsPage() {
                   Search: {searchQuery}
                   <button
                     onClick={() => {
-                      setSearchQuery('');
-                      setSearchInput('');
+                      setSearchQuery("");
+                      setSearchInput("");
                       setCurrentPage(1);
                     }}
                     className="hover:text-blue-900"
@@ -202,7 +201,7 @@ export default function ProductsPage() {
                   {selectedCategory}
                   <button
                     onClick={() => {
-                      setSelectedCategory('');
+                      setSelectedCategory("");
                       setCurrentPage(1);
                     }}
                     className="hover:text-purple-900"
@@ -218,8 +217,13 @@ export default function ProductsPage() {
         {/* Results Info */}
         {!isLoading && !error && (
           <div className="mb-6 text-gray-600">
-            Showing <span className="font-semibold text-gray-900">{products.length}</span> of{' '}
-            <span className="font-semibold text-gray-900">{totalProducts}</span> products
+            Showing{" "}
+            <span className="font-semibold text-gray-900">
+              {products.length}
+            </span>{" "}
+            of{" "}
+            <span className="font-semibold text-gray-900">{totalProducts}</span>{" "}
+            products
           </div>
         )}
 
@@ -233,8 +237,12 @@ export default function ProductsPage() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
               <MagnifyingGlassIcon className="h-8 w-8 text-gray-400" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-            <p className="text-gray-600">Try adjusting your search or filters</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No products found
+            </h3>
+            <p className="text-gray-600">
+              Try adjusting your search or filters
+            </p>
           </div>
         ) : (
           <>
@@ -244,55 +252,98 @@ export default function ProductsPage() {
               ))}
             </div>
 
-            {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-4 mt-8">
-                <button
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  disabled={currentPage === 1}
-                  className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  <ChevronLeftIcon className="h-5 w-5" />
-                  Previous
-                </button>
-                
-                <div className="flex items-center gap-2">
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    let pageNum;
-                    if (totalPages <= 5) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageNum = totalPages - 4 + i;
-                    } else {
-                      pageNum = currentPage - 2 + i;
+              <div className="mt-8">
+                <div className="flex md:hidden items-center justify-between gap-2">
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg font-medium text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <span>←</span>
+                    <span className="hidden xs:inline">Prev</span>
+                  </button>
+
+                  <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                    <span>Page</span>
+                    <select
+                      value={currentPage}
+                      onChange={(e) => setCurrentPage(Number(e.target.value))}
+                      className="border border-gray-300 rounded-lg px-2 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                        (page) => (
+                          <option key={page} value={page}>
+                            {page}
+                          </option>
+                        ),
+                      )}
+                    </select>
+                    <span>of {totalPages}</span>
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(totalPages, p + 1))
                     }
-                    
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => setCurrentPage(pageNum)}
-                        className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                          currentPage === pageNum
-                            ? 'bg-blue-600 text-white'
-                            : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
-                        }`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-1 px-3 py-2 border border-gray-300 rounded-lg font-medium text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <span className="hidden xs:inline">Next</span>
+                    <span>→</span>
+                  </button>
                 </div>
 
-                <button
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  disabled={currentPage === totalPages}
-                  className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  Next
-                  <ChevronRightIcon className="h-5 w-5" />
-                </button>
+                <div className="hidden md:flex items-center justify-center gap-4">
+                  <button
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <span>←</span>
+                    Previous
+                  </button>
+
+                  <div className="flex items-center gap-2">
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setCurrentPage(pageNum)}
+                          className={`w-10 h-10 rounded-lg font-medium transition-colors ${
+                            currentPage === pageNum
+                              ? "bg-blue-600 text-white"
+                              : "border border-gray-300 text-gray-700 hover:bg-gray-50"
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(totalPages, p + 1))
+                    }
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Next
+                    <span>→</span>
+                  </button>
+                </div>
               </div>
             )}
           </>
